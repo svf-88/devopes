@@ -1,0 +1,38 @@
+---
+- name: Создание пользователя и настройка службы
+  hosts: my_hosts
+  tasks:
+    - name: Создание пользователя devops
+      user:
+        name: devopes
+        createhome: no
+        shell: /bin/bash
+
+    - name: Create a directory
+      file: 
+        path: /opt/app/devopes
+        state: directory
+
+    - name: Копирование файла devopes.service
+      copy:
+        src: ./conf/devopes.service
+        dest: /etc/systemd/system/devopes.service
+
+    - name: Копирование файла devopes.py
+      copy:
+        src: ./conf/devopes.py
+        dest: /opt/app/devopes/devopes.py
+
+    - name: Перезагрузка конфигурации systemd
+      systemd:
+        daemon_reload: true
+
+    - name: Запуск службы devopes
+      systemd:
+        name: devopes
+        state: restarted
+
+    - name: Включение службы devopes при загрузке системы
+      systemd:
+        name: devopes
+        enabled: yes

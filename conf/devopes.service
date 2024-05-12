@@ -1,0 +1,12 @@
+[Unit]
+Description=Python Script of devopes 
+
+[Service]
+User=devopes
+Group=devopes
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /opt/app/devopes/devopes.py
+
+[Install]
+WantedBy=multi-user.target
